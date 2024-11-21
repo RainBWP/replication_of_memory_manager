@@ -31,8 +31,17 @@ def main():
     
     Physical_Memory.imprimir_memoria_completa() # imprimir la memoria completa
     
-    VirtualDirection = int(input("Direccion Virtual a Traducir: "))
-    pass
+    inputValue = int(input("Direccion Virtual a Traducir (base 10): "))
+    VirtualDirection = Physical_Memory.get_physical_address_with_virtual_memory(inputValue)
+    if VirtualDirection != -1:
+        tablaPoints = Physical_Memory.get_tabla_pagina(VirtualDirection)
+        numOnTablaPoints = int(str(tablaPoints.bit_permiso+tablaPoints.bit_referencia+tablaPoints.bit_modificado+tablaPoints.bit_presente_ausente+tablaPoints.bit_cache+tablaPoints.num_frame_bin),2)
+        print(f'Direccion Virtual: {VirtualDirection:bin} {VirtualDirection} {VirtualDirection:hex} {VirtualDirection:oct}\n Direccion Fisica: {numOnTablaPoints} ',end='')
+        print(f'|{tablaPoints.bit_permiso}|{tablaPoints.bit_referencia}|{tablaPoints.bit_modificado}|{tablaPoints.bit_presente_ausente}|{tablaPoints.bit_cache}|{tablaPoints.num_frame_bin}|',end=' ')
+        print(f'{numOnTablaPoints:hex} {numOnTablaPoints:oct}')
+    else:
+        print("Fin del programa")
+        exit()
 
 if __name__ == "__main__":
     
