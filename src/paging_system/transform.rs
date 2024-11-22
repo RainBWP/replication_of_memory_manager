@@ -7,7 +7,7 @@ use super::physical_address::PhysicalAddress;
 pub trait PagingSystem {
     fn to_page(&self, file_data: &FileData) -> Result<Page, String>;
     fn to_virtual_address(&self, file_data: &FileData) -> Result<VirtualAddress, String>;
-    fn to_physical_address(&self, file_data: &FileData) -> Result<PhysicalAddress, String>; //Puede que no se haga uso de esta función //Nota de mi yo del futuro: En efecto no sirvió de nada xdd
+    fn to_physical_address(&self, file_data: &FileData) -> Result<PhysicalAddress, String>;
 }
 
 

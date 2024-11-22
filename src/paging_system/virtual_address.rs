@@ -30,7 +30,7 @@ impl VirtualAddress {
         let page = match file_data.get_page(self.page_num as usize) {
             Some(page)=>page,
             None=>{
-                return Err(format!("Page number {} not found in page table",self.page_num));
+                return Err(format!("Número de página {} no disponible en la tabla de páginas",self.page_num));
             }
         };
         page.to_page(file_data)
@@ -42,10 +42,10 @@ impl std::fmt::Display for VirtualAddress {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-"---VIRTUAL ADDRESS DETAILS---:
-Content: {} / {:b} / {:X}
-Page number: {}
-Offset: {}",
+"---DETALLES DE DIRECCIÓN VIRTUAL---
+Contenido: {} / {:b} / {:X}
+Número de página: {}
+Desplazamiento: {}",
             self.original_number,
             self.original_number,
             self.original_number,

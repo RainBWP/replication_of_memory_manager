@@ -101,15 +101,13 @@ impl std::fmt::Display for FileData {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-"---FILE DATA---:
-Page size: {}
-Frame number: {}
-Page number: {}
-Pages: {:?}
+"---Datos archivo de entrada---
+Tamaño de página: {}
+Número de marcos: {}
+Número de páginas: {}
+Páginas: {:?}
 ",
             self.page_size, self.frame_num, self.page_num, self.pages
         )
     }
 }
-
-

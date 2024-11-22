@@ -5,7 +5,7 @@ use paging_system::prelude::*;
 use util::*;
 
 fn main() {
-    let file_data = FileData::from_file("src/entrada.txt").expect("Error en la lectura de datos");
+    let file_data = FileData::from_file("entrada.txt").expect("Error en la lectura de datos");
 
     let mut option: u128;
 
@@ -13,16 +13,16 @@ fn main() {
     let mut page: Page;
     let mut virtual_address: VirtualAddress;
     let mut physical_address: PhysicalAddress;
-    
+
 
     loop {
-
         clear(); //Limpiar pantalla al principio porque... por qué no?
-        println!("----MENU----");
-        println!("1.View file data");
-        println!("2.View page table");
-        println!("3.Translate VA a FA");
-        println!("4.Exit");
+        println!("----DV_DF----");
+        println!("1. Ver información del archivo de entrada");
+        println!("2. Ver tabla de páginas");
+        println!("3. Traducción de dirección virtual a física");
+        println!("4. Salir");
+
         option = try_input("-------------").unwrap();
         clear();
 
@@ -44,8 +44,7 @@ fn main() {
                     });
             }
             3 => {
-                input =
-                    try_input("Dame tu dirección virtual").expect("Error en la lectura de entrada");
+                input = try_input("Ingresa la dirección virtual: ").expect("Error en lectura del archivo");
 
                 virtual_address = match input.to_virtual_address(&file_data) {
                     Ok(virtual_address) => virtual_address,
@@ -81,7 +80,7 @@ fn main() {
                 break;
             }
             _ => {
-                println!("No option {} available ", option);
+                println!("Opción {} desconocida ", option);
             }
         }
         pause();

@@ -17,14 +17,14 @@ impl std::fmt::Display for Page {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-"---PAGE DETAILS---:
-Content: {} / {:b} / {:X}
-Cache disabled bit: {}
-Accessed bit: {}
-Dirty bit: {}
-Permission bit: {}
-Present/Absent bit: {}
-Frame: {}",
+"---DETALLES DE PÁGINA---
+Contenido: {} / {:b} / {:X}
+Bit de permiso: {}
+Bit de referencia: {}
+Bit de modificado: {}
+Bit de presente/ausente: {}
+Bit de caché inhabilitado: {}
+Marco: {}",
             self.original_number,
             self.original_number,
             self.original_number,
@@ -37,11 +37,3 @@ Frame: {}",
         )
     }
 }
-
-/*
-1. Bit de caché inhabilitado
-2. Bit de referida (o referenciada creo)
-3. Bit de modificada
-4. Bit de permiso/protección
-5. Bit de presente/ausente
-*/

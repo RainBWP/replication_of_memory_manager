@@ -16,10 +16,10 @@ impl std::fmt::Display for PhysicalAddress {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-"---PHYSICAL ADDRESS DETAILS---:
-Content: {} / {:b} / {:X}
-Frame: {}
-Offset: {}",
+"---DETALLES DIRECCIÓN FÍSICA---
+Contenido: {} / {:b} / {:X}
+Marco: {}
+Desplazamiento: {}",
             self.original_number,
             self.original_number,
             self.original_number,

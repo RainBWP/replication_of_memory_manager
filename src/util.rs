@@ -22,7 +22,7 @@ pub fn try_input<T: std::str::FromStr>(text: &str) -> Result<T, std::io::Error> 
 
 //Herramienta para pausar por un momento la continuidad de la ejecición
 pub fn pause() {
-    println!("Press any key to continue...");
+    println!("Para continuar aprieta cualquier tecla...");
     let _ = std::io::stdin().read(&mut [0u8]).unwrap();
 }
 
