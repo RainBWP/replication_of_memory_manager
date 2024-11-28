@@ -1,12 +1,12 @@
-from math import log2
-
-
 class PhysicalMemory:
-    def __init__(self, bit_virt, cant_frames, num_marco, memory):
-        self.bit_tam_virtual = int(bit_virt)
+    def __init__(self, bit_virt:int, cant_frames:int, num_marco:int, memory:list):
+        self.tam_virtual = int(bit_virt)
         self.cantidad_de_paginas = int(cant_frames)
         self.numero_de_marco = int(num_marco)
-        self.bits_marco = int(log2(self.numero_de_marco))
+
+        self.bits_marco = (self.numero_de_marco - 1).bit_length()
+        self.bits_pagina = (self.tam_virtual -1).bit_length()
+
         self.memoria = memory
 
     def imprimir_memoria_completa(self)->None:
@@ -26,52 +26,22 @@ class PhysicalMemory:
         for i in range(len(self.memoria)):
             print(f'{i}\t{self.memoria[i]:b}')
 
-    def imprimir_tabla_pagina(self, pagina)->None:
+    def imprimir_tabla_pagina(self, pagina) -> None:
         memoryValue = self.memoria[pagina]
         bitsToShift = self.bits_marco
-
-        bit_permiso = (memoryValue >> (bitsToShift + 5)) & 1
-        bit_referencia = (memoryValue >> (bitsToShift + 4)) & 1
-        bit_modificado = (memoryValue >> (bitsToShift + 3)) & 1
-        bit_presente_ausente = (memoryValue >> (bitsToShift + 2)) & 1
-        bit_cache = (memoryValue >> (bitsToShift + 1)) & 1
-        num_frame = memoryValue & ((1 << bitsToShift) - 1)
-        num_frame_bin = ""
-
-        for i in range(bitsToShift - 1, -1, -1):
-            num_frame_bin += "1" if (num_frame >> i) & 1 else "0"
+        bit_permiso, bit_referencia, bit_modificado, bit_presente_ausente, bit_cache, num_frame_bin = extraer_bits(memoryValue, bitsToShift)
         print(f'|{bit_permiso}|{bit_referencia}|{bit_modificado}|{bit_presente_ausente}|{bit_cache}|{num_frame_bin}|')
 
     def get_tabla_formato(self, memoryValue):
         bitsToShift = self.bits_marco
-
-        bit_permiso = (memoryValue >> (bitsToShift + 5)) & 1
-        bit_referencia = (memoryValue >> (bitsToShift + 4)) & 1
-        bit_modificado = (memoryValue >> (bitsToShift + 3)) & 1
-        bit_presente_ausente = (memoryValue >> (bitsToShift + 2)) & 1
-        bit_cache = (memoryValue >> (bitsToShift + 1)) & 1
-        num_frame = memoryValue & ((1 << bitsToShift) - 1)
-        num_frame_bin = ""
-
-        for i in range(bitsToShift - 1, -1, -1):
-            num_frame_bin += "1" if (num_frame >> i) & 1 else "0"
+        bit_permiso, bit_referencia, bit_modificado, bit_presente_ausente, bit_cache, num_frame_bin = extraer_bits(memoryValue, bitsToShift)
         print(f'|{bit_permiso}|{bit_referencia}|{bit_modificado}|{bit_presente_ausente}|{bit_cache}|{num_frame_bin}|')
 
     def get_tabla_pagina(self, pagina) -> tuple:
-        memoryValue = self.memoria[pagina]
+        num_pag = pagina >> self.bits_pagina
+        memoryValue = self.memoria[num_pag]
         bitsToShift = self.bits_marco
-
-        bit_permiso = (memoryValue >> (bitsToShift + 5)) & 1
-        bit_referencia = (memoryValue >> (bitsToShift + 4)) & 1
-        bit_modificado = (memoryValue >> (bitsToShift + 3)) & 1
-        bit_presente_ausente = (memoryValue >> (bitsToShift + 2)) & 1
-        bit_cache = (memoryValue >> (bitsToShift + 1)) & 1
-        num_frame = memoryValue & ((1 << bitsToShift) - 1)
-        num_frame_bin = ""
-
-        for i in range(bitsToShift - 1, -1, -1):
-            num_frame_bin += "1" if (num_frame >> i) & 1 else "0"
-
+        bit_permiso, bit_referencia, bit_modificado, bit_presente_ausente, bit_cache, num_frame_bin = extraer_bits(memoryValue, bitsToShift)
         memoryConverted = {
             'bit_permiso': bit_permiso,
             'bit_referencia': bit_referencia,
@@ -80,7 +50,7 @@ class PhysicalMemory:
             'bit_cache': bit_cache,
             'num_frame': num_frame_bin
         }
-        return bit_permiso, bit_referencia, bit_modificado, bit_presente_ausente, bit_cache
+        return memoryConverted
 
     def desplazamiento_de_pagina(self, pagina):
         pass
@@ -90,7 +60,7 @@ class PhysicalMemory:
 
     def get_physical_address_with_virtual_memory(self, virtual_address:int) -> int:
         
-        virtual_page = (virtual_address >> self.bits_marco)
+        virtual_page = (virtual_address >> (self.bits_pagina))
         virtual_desplazamiento = (virtual_address & ((1 << self.bits_marco) - 1))
         print(f'Direccion Virtual: {virtual_address:b} {virtual_address}')
         print(f'Pagina: {virtual_page:b} Desplazamiento: {virtual_desplazamiento:b}')
@@ -104,4 +74,14 @@ class PhysicalMemory:
         memoryNumber = (memoryNumber >> self.bits_marco) << self.bits_marco
         memoryNumber = memoryNumber | virtual_desplazamiento
         
-        return 0
+        return memoryNumber
+
+def extraer_bits(memoryValue, bitsToShift):
+    bit_permiso = (memoryValue >> (bitsToShift + 4)) & 1
+    bit_referencia = (memoryValue >> (bitsToShift + 3)) & 1
+    bit_modificado = (memoryValue >> (bitsToShift + 2)) & 1
+    bit_presente_ausente = (memoryValue >> (bitsToShift + 1)) & 1
+    bit_cache = (memoryValue >> bitsToShift) & 1
+    num_frame = memoryValue & ((1 << bitsToShift) - 1)
+    num_frame_bin = ''.join('1' if (num_frame >> i) & 1 else '0' for i in range(bitsToShift - 1, -1, -1))
+    return bit_permiso, bit_referencia, bit_modificado, bit_presente_ausente, bit_cache, num_frame_bin

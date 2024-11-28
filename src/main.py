@@ -33,12 +33,13 @@ def main():
     
     inputValue = int(input("Direccion Virtual a Traducir (base 10): "))
     VirtualDirection = Physical_Memory.get_physical_address_with_virtual_memory(inputValue)
+    print(VirtualDirection)
+
     if VirtualDirection != -1:
         tablaPoints = Physical_Memory.get_tabla_pagina(VirtualDirection)
-        numOnTablaPoints = int(str(tablaPoints.bit_permiso+tablaPoints.bit_referencia+tablaPoints.bit_modificado+tablaPoints.bit_presente_ausente+tablaPoints.bit_cache+tablaPoints.num_frame_bin),2)
-        print(f'Direccion Virtual: {VirtualDirection:bin} {VirtualDirection} {VirtualDirection:hex} {VirtualDirection:oct}\n Direccion Fisica: {numOnTablaPoints} ',end='')
+        print(f'Direccion Virtual: {VirtualDirection:bin} {VirtualDirection} {VirtualDirection:hex} {VirtualDirection:oct}\n\n Direccion Fisica: {numOnTablaPoints} ',end='')
         print(f'|{tablaPoints.bit_permiso}|{tablaPoints.bit_referencia}|{tablaPoints.bit_modificado}|{tablaPoints.bit_presente_ausente}|{tablaPoints.bit_cache}|{tablaPoints.num_frame_bin}|',end=' ')
-        print(f'{numOnTablaPoints:hex} {numOnTablaPoints:oct}')
+        # print(f'{numOnTablaPoints:hex} {numOnTablaPoints:oct}')
     else:
         print("Fin del programa")
         exit()
