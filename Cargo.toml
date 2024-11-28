@@ -1,6 +1,0 @@
-[package]
-name = "practica3-v2"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
