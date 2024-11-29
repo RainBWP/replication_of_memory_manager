@@ -18,7 +18,7 @@ public class Paginas {
         this.bit_de_modificacion = ((memoria >> (desplazamiento + 3)) & 1) == 1;
         this.bit_de_permiso = ((memoria >> (desplazamiento + 2)) & 1) == 1;
         this.bit_de_cache = ((memoria >> (desplazamiento + 1)) & 1) == 1;
-        this.bit_de_presente_ausente = (memoria & 1) == 1;
+        this.bit_de_presente_ausente = ((memoria >> desplazamiento) & 1) == 1;
         this.frame = memoria & ((1 << desplazamiento) - 1);
     }
 

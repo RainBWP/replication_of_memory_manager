@@ -3,7 +3,7 @@ package com.sistemas;
 public class Memoria_Fisica {
     private final int tamano_de_memoria; // Tamaño de la memoria física - Se Recibira 1024 bytes por ejemplo
     private int[] memoria; // Memoria física - Se guardara en un arreglo de 1024 bytes
-    private boolean memoria_llena; // Memoria física llena
+    private int porcentaje_de_uso; // Porcentaje de uso de la memoria física - Este porcentaje no es de 0-100, sino de 0-1024
 
     public Memoria_Fisica(int tamano_de_memoria) {
         this.tamano_de_memoria = tamano_de_memoria;
@@ -11,36 +11,50 @@ public class Memoria_Fisica {
         for (int i = 0; i < tamano_de_memoria; i++) {
             memoria[i] = 0;
         }
-        this.memoria_llena = false;
     }
 
     public int getTamanoDeMemoria() {
         return tamano_de_memoria;
     }
     
-    public int[] getMemoria() {
-        return memoria;
+    public int getMemoria_con_pagina(int pagina) {
+        return memoria[pagina];
     }
 
     public boolean getMemoriaLlena() {
-        return memoria_llena;
+        return porcentaje_de_uso == tamano_de_memoria;
     }
 
-    public void setMemoriaLlena(boolean memoria_llena) {
-        this.memoria_llena = memoria_llena;
-    }
+    public boolean addMemoria_con_pagina(int pagina, int dato) {
+        if ((pagina < tamano_de_memoria) & (memoria[pagina] == 0)) {
+            memoria[pagina] = dato;
+            porcentaje_de_uso++;
+            return true;
 
-    public void setMemoria(int[] memoria) {
-        this.memoria = memoria;
+        }
+        else {
+            return false;
+        }
     }
-
-    public boolean addMemoria(int direccion, int dato) {
-        if (direccion < tamano_de_memoria || memoria[direccion] == 0) {
-            memoria[direccion] = dato;
+    public boolean removeMemoria_con_pagina(int pagina) {
+        if ((pagina < tamano_de_memoria) & (memoria[pagina] == 0)) {
+            memoria[pagina] = 0;
+            porcentaje_de_uso--;
             return true;
         }
         else {
             return false;
         }
+    }
+
+    public int getPorcentajeDeUso() {
+        return porcentaje_de_uso/tamano_de_memoria;
+    }
+
+    public void emptyMemoria() {
+        for (int i = 0; i < tamano_de_memoria; i++) {
+            memoria[i] = 0;
+        }
+        porcentaje_de_uso = 0;
     }
 }
