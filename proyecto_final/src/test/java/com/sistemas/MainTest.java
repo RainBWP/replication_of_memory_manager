@@ -20,7 +20,7 @@ public class MainTest {
                                                 32, 
                                                 memoria_fisica);
         
-        assertEquals(memoria_fisica.getMemoria_con_pagina(5), 168);
+        assertEquals(168, memoria_fisica.getMemoria_con_pagina(5));
         assertEquals(25, direccion_fisica);
     }
 
