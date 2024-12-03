@@ -2,7 +2,6 @@ package com.sistemas;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
-import java.util.logging.Logger;
 
 public class MainTest {
     @Test
