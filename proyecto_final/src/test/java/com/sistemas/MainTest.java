@@ -12,11 +12,12 @@ public class MainTest {
     
     @Test
     public void testConvertirVirtualAFisica() {
-        Memoria_Fisica memoria_fisica = new Memoria_Fisica(1024);
+        Memoria_Virtual memoria_Virtual = new Memoria_Virtual(1024, 32);
+        Memoria_Fisica memoria_fisica = new Memoria_Fisica(1024, 8);
         memoria_fisica.addMemoria_con_pagina(5, 168);
         int direccion_fisica = Memoria_Traductor.convertir_virtual_a_fisica(185, 
-                                                8, 
-                                                32, 
+                                                memoria_fisica.getTamanoDeMarco(), 
+                                                memoria_Virtual.getTamanoDePagina(), 
                                                 memoria_fisica);
         
         assertEquals(168, memoria_fisica.getMemoria_con_pagina(5));
