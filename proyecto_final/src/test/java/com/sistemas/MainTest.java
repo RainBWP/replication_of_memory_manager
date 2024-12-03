@@ -44,4 +44,36 @@ public class MainTest {
         assertEquals(true, pagina.getPresenteAusente());
         assertEquals(3, pagina.getFrame());
     }
+
+    @Test
+    public void testNodo() {
+
+        Nodos nodo = new Nodos((byte) 1,
+                1024,
+                1024,
+                32);
+        assertEquals(1, nodo.getId());
+        assertEquals(1024, nodo.getMemoriaFisica().getTamanoDeMemoria());
+        assertEquals(1024, nodo.getMemoriaVirtual().getTamanoDeMemoria());
+        assertEquals(32, nodo.getMemoriaVirtual().getTamanoDePagina());
+        assertEquals(0, nodo.size());
+        assertEquals(true, nodo.isEmpty());
+
+        Proceso proceso1 = new Proceso("Proceso 1", 5, new int[] {1, 2, 3, 4, 5});
+        nodo.pushProceso(proceso1);
+        assertEquals(1, nodo.size());
+        assertEquals(false, nodo.isEmpty());
+        assertEquals(proceso1, nodo.popProceso());
+        assertEquals(0, nodo.size());
+        assertEquals(true, nodo.isEmpty());
+
+        for (int i = 0; i < 10; i++) {
+            nodo.pushProceso(new Proceso("Proceso " + i, 5, new int[] {1, 2, 3, 4, 5}));
+        }
+        assertEquals(10, nodo.size());
+        assertEquals(false, nodo.isEmpty());
+        for (int i = 0; i < 10; i++) {
+            nodo.popProceso();
+        }
+    }
 }
