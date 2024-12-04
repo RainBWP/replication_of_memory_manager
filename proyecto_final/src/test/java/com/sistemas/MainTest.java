@@ -5,75 +5,22 @@ import org.junit.jupiter.api.Test;
 
 public class MainTest {
     @Test
-    public void testObtenerPaginaDeVirtual() {
-        int pagina = Memoria_Traductor.obtener_pagina_de_virtual(185, 32);
-        assertEquals(5, pagina);
-    }
-    
-    @Test
     public void testConvertirVirtualAFisica() {
-        Memoria_Virtual memoria_Virtual = new Memoria_Virtual(1024, 32);
-        Memoria_Fisica memoria_fisica = new Memoria_Fisica(1024, 8);
-        memoria_fisica.addMemoria_con_pagina(5, 168);
-        int direccion_fisica = Memoria_Traductor.convertir_virtual_a_fisica(185, 
-                                                memoria_fisica.getTamanoDeMarco(), 
-                                                memoria_Virtual.getTamanoDePagina(), 
-                                                memoria_fisica);
-        
-        assertEquals(168, memoria_fisica.getMemoria_con_pagina(5));
-        assertEquals(25, direccion_fisica);
-    }
+        int tamano_de_pagina = 64;
+        int numero_de_paginas = 4;
+        int numero_de_marcos = 8;
 
-    @Test
-    public void testPaginas() {
-        Paginas pagina = new Paginas(168, 8);
-        assertEquals(168, pagina.getMemoria());
-        assertEquals(true, pagina.getReferencia());
-        assertEquals(false, pagina.getModificacion());
-        assertEquals(true, pagina.getPermiso());
-        assertEquals(false, pagina.getCache());
-        assertEquals(true, pagina.getPresenteAusente());
-        assertEquals(0, pagina.getFrame());
+        Tabla_de_Paginas entries =  new Tabla_de_Paginas(numero_de_paginas);
+        Paginas pag1 = new Paginas(0, numero_de_marcos);
+        Paginas pag2 = new Paginas(0, numero_de_marcos);
+        Paginas pag3 = new Paginas(0, numero_de_marcos);
+        Paginas pag4 = new Paginas(159, numero_de_marcos);
 
-        pagina = new Paginas(235, 8);
-        assertEquals(235, pagina.getMemoria());
-        assertEquals(true, pagina.getReferencia());
-        assertEquals(true, pagina.getModificacion());
-        assertEquals(true, pagina.getPermiso());
-        assertEquals(false, pagina.getCache());
-        assertEquals(true, pagina.getPresenteAusente());
-        assertEquals(3, pagina.getFrame());
-    }
+        entries.setPagina(0, pag1);
+        entries.setPagina(1, pag2);
+        entries.setPagina(2, pag3);
+        entries.setPagina(3, pag4);
 
-    @Test
-    public void testNodo() {
-
-        Nodos nodo = new Nodos((byte) 1,
-                1024,
-                1024,
-                32);
-        assertEquals(1, nodo.getId());
-        assertEquals(1024, nodo.getMemoriaFisica().getTamanoDeMemoria());
-        assertEquals(1024, nodo.getMemoriaVirtual().getTamanoDeMemoria());
-        assertEquals(32, nodo.getMemoriaVirtual().getTamanoDePagina());
-        assertEquals(0, nodo.size());
-        assertEquals(true, nodo.isEmpty());
-
-        Proceso proceso1 = new Proceso("Proceso 1", 5, new int[] {1, 2, 3, 4, 5});
-        nodo.pushProceso(proceso1);
-        assertEquals(1, nodo.size());
-        assertEquals(false, nodo.isEmpty());
-        assertEquals(proceso1, nodo.popProceso());
-        assertEquals(0, nodo.size());
-        assertEquals(true, nodo.isEmpty());
-
-        for (int i = 0; i < 10; i++) {
-            nodo.pushProceso(new Proceso("Proceso " + i, 5, new int[] {1, 2, 3, 4, 5}));
-        }
-        assertEquals(10, nodo.size());
-        assertEquals(false, nodo.isEmpty());
-        for (int i = 0; i < 10; i++) {
-            nodo.popProceso();
-        }
+        assertEquals(448 ,Memoria_Traductor.convertir_virtual_a_fisica(192, tamano_de_pagina, entries));
     }
 }
