@@ -21,6 +21,14 @@ public class Nodos {
         // this.tabla_de_paginas = new Tabla_de_Paginas(Tamano_de_Memoria_Virtual, Tamano_de_Pagina);
     }
 
+//    @Override
+//    public String toString(){
+//        return "Información del nodo " + id
+//                + "Tamaño de memoria física: " + memoria_fisica.getTamanoDeMemoria()
+//                + "Tamaño de página: " + memoria_fisica.getTamanoDeMemoria()
+//                + ;
+//    }
+
     public byte getId() {
         return id;
     }

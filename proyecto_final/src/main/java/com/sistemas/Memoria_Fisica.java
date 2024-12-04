@@ -2,7 +2,7 @@ package com.sistemas;
 
 public class Memoria_Fisica {
     private final int tamano_de_memoria; // Tamaño de la memoria física - Se Recibira 1024 bytes por ejemplo
-    private final int[] memoria; // Memoria física - Se guardara en un arreglo de 1024 bytes
+    private int[] memoria; // Memoria física - Se guardara en un arreglo de 1024 bytes
     private final short tamano_de_marco; // Tamaño de los marcos de la memoria física - Se Recibira 32 bytes por ejemplo
     private int porcentaje_de_uso; // Porcentaje de uso de la memoria física - Este porcentaje no es de 0-100, sino de 0-1024
     

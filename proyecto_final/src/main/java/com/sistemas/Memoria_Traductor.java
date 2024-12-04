@@ -9,34 +9,45 @@ public class Memoria_Traductor {
         return pagina;
     }
 
-    public static int convertir_virtual_a_fisica(int direccion_virtual, 
-                                                int tamano_de_marco, 
-                                                int tamano_de_pagina, 
-                                                Memoria_Fisica memoria_fisica) {
+    public static int convertir_virtual_a_fisica(int direccion_virtual,
+                                                int tamano_de_pagina,
+                                                Tabla_de_Paginas Tabla) {
+
+        int direccion_fisica = 0;
+        int numero_de_marco = 0;    //Parte importante de una dirección física
 
         int direccion_virtual_temporal = direccion_virtual; //Se guarda el valor de dirección virtual en una variable auxiliar
+
+        int numero_de_pagina_indice = obtener_pagina_de_virtual(direccion_virtual, tamano_de_pagina);
+        if(!Tabla.getPagina(numero_de_pagina_indice).getPresenteAusente()){
+            System.out.println("Fallo de página");
+            return -1;
+        }
+
+        numero_de_marco = Tabla.getPagina(numero_de_pagina_indice).getFrame();
+
         int bits_de_desplazamiento = Integer.bitCount(tamano_de_pagina - 1); // obtenemos los bits para desplazamiento
+//
+        System.out.println("Valor de bits de desplazamiento: "+bits_de_desplazamiento);
+//
+//        //Se obtiene el número de páginas haciendo corrimiento de bits
+//        direccion_virtual_temporal >>= bits_de_desplazamiento;
 
-        //System.out.println("Valor de bits de desplazamiento: "+bits_de_desplazamiento);
-
-        //Se obtiene el número de páginas haciendo corrimiento de bits
-        direccion_virtual_temporal >>= bits_de_desplazamiento;
-
-        //Procederemos a obtener el valor del desplazamiento
+        /* Procederemos a obtener el valor del desplazamiento */
+        direccion_virtual_temporal = numero_de_pagina_indice;
         direccion_virtual_temporal <<= bits_de_desplazamiento;  //Se regresan los bits de desplazamiento a su lugar
-
         int mascara = direccion_virtual_temporal ^ Integer.MAX_VALUE; //Se crea una máscara con el número mayor para Int 11111...
         //System.out.println("Valor de mascara: "+mascara);
+
         int desplazamiento = direccion_virtual & mascara; //Se obtiene el valor de desplazamiento con enmascaramiento al valor original de d.v.
-        //System.out.println("Valor de desplazamiento: "+desplazamiento);
 
-        int memoria_fisica_valor = memoria_fisica.getMemoria_con_pagina(obtener_pagina_de_virtual(direccion_virtual, tamano_de_pagina)); // obtenemos el numero de marco
-        Paginas pagina = new Paginas(memoria_fisica_valor, tamano_de_marco); // creamos una nueva pagina
+        System.out.println("Valor de desplazamiento: "+desplazamiento);
+        //int marco_memoria_fisica = memoria_fisica.getMemoria_con_pagina(obtener_pagina_de_virtual(direccion_virtual, tamano_de_pagina)); // obtenemos el numero de marco
+//        Paginas pagina = new Paginas(marco_memoria_fisica, tamano_de_marco); // creamos una nueva pagina
+        direccion_fisica = numero_de_marco << bits_de_desplazamiento;
+        direccion_fisica |= desplazamiento;
 
-        int virtual = pagina.getFrame() << bits_de_desplazamiento; // obtenemos la direccion virtual
-        virtual |= desplazamiento; // obtenemos la direccion virtual
-        // System.out.println("DV: " + virtual);
-        return virtual;
+        return direccion_fisica;
     }
 
     

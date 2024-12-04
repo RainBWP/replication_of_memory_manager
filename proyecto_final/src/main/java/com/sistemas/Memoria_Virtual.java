@@ -40,7 +40,6 @@ public class Memoria_Virtual {
             memoria[pagina] = dato;
             if (dato == 0) { // Si el dato es 0, se decrementa el porcentaje de uso ya que se esta liberando memoria
                 porcentaje_de_uso--;
-
             } else {
                 porcentaje_de_uso++;
             }
