@@ -6,7 +6,9 @@ public class Proceso {
     private int direccion_virtual;
     private int [] referencias;
 
-    public Proceso(String nombre_de_proceso, int numero_de_paginas_a_usar, int [] referencias) {
+    public Proceso(String nombre_de_proceso,
+                   int numero_de_paginas_a_usar,
+                   int [] referencias) {
         this.nombre_de_proceso = nombre_de_proceso;
         this.direccion_virtual = 0;
         this.numero_de_paginas_a_usar = numero_de_paginas_a_usar;
@@ -61,10 +63,12 @@ public class Proceso {
                 }
 
                 // Calcula la dirección física
-                int direccion_fisica = Memoria_Traductor.convertir_virtual_a_fisica(direccion_virtual+referencia, 
+                int direccion_fisica = 0;
+
+                /* Memoria_Traductor.convertir_virtual_a_fisica(direccion_virtual+referencia,
                                                 memoriaFisica.getTamanoDeMarco(), 
-                                                memoriaVirtual.getTamanoDePagina(), 
-                                                memoriaFisica);
+                                                memoriaVirtual.getTamanoDePagina(),
+                                                memoriaFisica);*/
 
                 // Muestra la información requerida
                 System.out.println("Proceso: " + nombre_de_proceso);
