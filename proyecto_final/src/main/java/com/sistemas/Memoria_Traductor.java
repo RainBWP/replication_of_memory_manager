@@ -35,7 +35,7 @@ public class Memoria_Traductor {
 
         int virtual = pagina.getFrame() << bits_de_desplazamiento; // obtenemos la direccion virtual
         virtual |= desplazamiento; // obtenemos la direccion virtual
-        System.out.println("DV: " + virtual);
+        // System.out.println("DV: " + virtual);
         return virtual;
     }
 
