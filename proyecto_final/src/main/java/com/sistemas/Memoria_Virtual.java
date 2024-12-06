@@ -2,17 +2,20 @@ package com.sistemas;
 
 public class Memoria_Virtual {
     private final int tamano_de_memoria; // Tamaño de la memoria virtual - Se Recibira 1024 bytes por ejemplo   
-    private final int[] memoria; // Memoria virtual - Se guardara en un arreglo de 1024 bytes
+    private int[] memoria; // Memoria virtual - Se guardara en un arreglo de 1024 bytes
     private final short tamano_de_pagina; // Tamaño de los marcos de la memoria física - Se Recibira 32 bytes por ejemplo
     private int porcentaje_de_uso; // Porcentaje de uso de la memoria virtual - Este porcentaje no es de 0-100, sino de 0-1024
 
     public Memoria_Virtual(int tamano_de_memoria, int tamano_de_pagina) {
-        this.tamano_de_memoria = tamano_de_memoria;
+        this.tamano_de_memoria = tamano_de_memoria; //Número de páginas que puede alojar
         this.memoria = new int[tamano_de_memoria];
         this.tamano_de_pagina = (short) tamano_de_pagina;
+
+        // Se inicia en 0s, para esta simulación el contenido de cada página en memoria virtual será el número de marco
         for (int i = 0; i < tamano_de_memoria; i++) {
             memoria[i] = 0;
         }
+
     }
 
     public short getTamanoDePagina() {
@@ -27,8 +30,9 @@ public class Memoria_Virtual {
         return tamano_de_memoria;
     }
 
-    public int getMemoria_con_pagina(int pagina) {
-        return memoria[pagina];
+    // Función para obtener la dirección virtual (el contenido de la página)
+    public int getMemoria_con_pagina(int numero_de_pagina) {
+        return memoria[numero_de_pagina];
     }
 
     public boolean getMemoriaLlena() {
@@ -36,7 +40,7 @@ public class Memoria_Virtual {
     }
 
     public boolean addMemoria_con_pagina(int pagina, int dato) {
-        if ((pagina < tamano_de_memoria) & (memoria[pagina] == 0)) {
+        if ((pagina < tamano_de_memoria) && (memoria[pagina] == 0)) {
             memoria[pagina] = dato;
             if (dato == 0) { // Si el dato es 0, se decrementa el porcentaje de uso ya que se esta liberando memoria
                 porcentaje_de_uso--;
@@ -50,7 +54,7 @@ public class Memoria_Virtual {
     }
 
     public boolean removeMemoria_con_pagina(int pagina) {
-        if ((pagina < tamano_de_memoria) & (memoria[pagina] == 0)) {
+        if ((pagina < tamano_de_memoria) && (memoria[pagina] == 0)) {
             memoria[pagina] = 0;
             porcentaje_de_uso--;
             return true;
@@ -63,8 +67,8 @@ public class Memoria_Virtual {
         return (float) porcentaje_de_uso / tamano_de_memoria;
     }
 
-    public int getMemoria(int direccion_virtual) {
-        return memoria[direccion_virtual];
+    public int getMemoria(int numero_de_pagina) {
+        return memoria[numero_de_pagina] - 1;
     }
 
     public void emptyMemoria() {
