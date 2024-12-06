@@ -19,11 +19,11 @@ public class Memoria_Traductor {
         int numero_de_pagina_indice = obtener_pagina_de_virtual(direccion_virtual, tamano_de_pagina);
 
         // En caso de que no esté encendido el bit de presente/ausente entonces se devuelve un -1 (error)
-        if(!Tabla.getPagina(numero_de_pagina_indice).getPresenteAusente()){
-            return -1;
-        }
+//        if(!Tabla.getPagina(numero_de_pagina_indice).getPresenteAusente()){
+//            return -1;
+//        }
 
-        numero_de_marco = Tabla.getPagina(numero_de_pagina_indice).getFrame();
+        //numero_de_marco = Tabla.getPagina(numero_de_pagina_indice).getFrame();
 
         int bits_de_desplazamiento = Integer.bitCount(tamano_de_pagina - 1); // obtenemos los bits para desplazamiento
 //        System.out.println("Valor de bits de desplazamiento: "+bits_de_desplazamiento);
@@ -44,5 +44,13 @@ public class Memoria_Traductor {
         return direccion_fisica;
     }
 
-    
+    public static void crearEntrada(Tabla_de_Paginas tabla, int num_pagina, int numero_marco){
+        int entrada = numero_marco;
+        tabla.setEntrada(num_pagina, entrada);
+        // Al crearse una entrada común se enciende el bit de:
+        // - Permiso lectura/escritura
+        tabla.setBitPermiso(num_pagina);
+    }
+
+
 }
