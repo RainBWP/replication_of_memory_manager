@@ -38,9 +38,6 @@ public class Main {
                 System.out.println("Error: Debe ingresar 2 argumentos");
             }
         }
-
-        
-
         if (!ejecutar) {
             printExecutionExample();
         }
@@ -78,8 +75,8 @@ public class Main {
             File jsonFile = new File("execution.json"); // Asegúrate de que este archivo exista
             JsonImport Json = mapper.readValue(jsonFile, JsonImport.class);
             
-            System.out.println("Debug:\tTamano de Pagina: " + Json.getTamanoDePagina());
-            System.out.println("\tNodosSize: "+ Json.sizeNodos());
+            /* System.out.println("Debug:\tTamano de Pagina: " + Json.getTamanoDePagina());
+            System.out.println("\tNodosSize: "+ Json.sizeNodos()); */
             return Json;
         } catch (IOException e) {
             System.err.println("================================");
