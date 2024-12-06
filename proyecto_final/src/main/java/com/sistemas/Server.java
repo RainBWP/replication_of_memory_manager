@@ -88,9 +88,10 @@ public class Server {
         // Usar datos de prueba para Paginas (se pueden cambiar más adelante)
         Paginas pagina = new Paginas(32, 16, 8);
         int direccionFisica = 185;
+        int direccionVirtual = 123;
 
         // Generar log del proceso
-        return proceso.sendLog(pagina, direccionFisica);
+        return proceso.sendLog(pagina, direccionVirtual, direccionFisica);
     }
 
     private static void enviarLog(ObjectOutputStream out, String log) {

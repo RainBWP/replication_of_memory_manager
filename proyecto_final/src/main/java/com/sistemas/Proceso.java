@@ -25,10 +25,10 @@ public class Proceso implements Serializable {
         return referencias.removeFirst();
     }
 
-        public String sendLog(Paginas pagina, int direccion_fisica) {
+        public String sendLog(Paginas pagina, int direccion_virtual, int direccion_fisica) {
             StringBuilder log = new StringBuilder();
             log.append("\nProceso: ").append(nombre_de_proceso).append("\n");
-            log.append("Dirección virtual: ").append(0).append("\n");
+            log.append("Dirección virtual: ").append(direccion_virtual).append("\n");
             log.append("Dirección física: ").append(direccion_fisica).append("\n");
             log.append("Número de marco: ").append(pagina.getFrame()).append("\n");
             log.append("Bits de control:\n");
