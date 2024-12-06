@@ -1,47 +1,56 @@
 package com.sistemas;
 
 public class Memoria_Virtual {
-    private final int tamano_de_memoria; // Tamaño de la memoria virtual - Se Recibira 1024 bytes por ejemplo   
-    private final int[] memoria; // Memoria virtual - Se guardara en un arreglo de 1024 bytes
-    private final short tamano_de_pagina; // Tamaño de los marcos de la memoria física - Se Recibira 32 bytes por ejemplo
-    private int porcentaje_de_uso; // Porcentaje de uso de la memoria virtual - Este porcentaje no es de 0-100, sino de 0-1024
+    // La memoria virtual se compone de páginas que contienen el número de marco al que referencian
+    // Comparte características con la memoria física, solo que esta posee una capacidad mayor
 
-    public Memoria_Virtual(int tamano_de_memoria, int tamano_de_pagina) {
-        this.tamano_de_memoria = tamano_de_memoria;
-        this.memoria = new int[tamano_de_memoria];
-        this.tamano_de_pagina = (short) tamano_de_pagina;
-        for (int i = 0; i < tamano_de_memoria; i++) {
+    private final int tamano_de_pagina;
+    private final int numero_de_paginas;
+    private final int tamano_en_bytes;
+    private final int[] memoria;  // Un arreglo de números que contendrá el número de marco en el que se refiera
+    private int paginas_usadas = 0;
+
+    /** Constructor de la memoria virtual
+     * @param tamano_de_pagina Tamaño de página (en bytes)
+     * @param numero_de_paginas Número de páginas que tendrá la memoria virtual
+     * */
+
+    public Memoria_Virtual(int tamano_de_pagina, int numero_de_paginas){
+        this.tamano_de_pagina = tamano_de_pagina;
+        this.numero_de_paginas = numero_de_paginas;
+
+        this.memoria = new int[numero_de_paginas];
+        //Se inicializa con 0 (aunque sería mejor inicializarlo con -1)
+        for (int i = 0; i < numero_de_paginas; i++)
             memoria[i] = 0;
-        }
+        this.tamano_en_bytes = numero_de_paginas*tamano_de_pagina;
     }
 
-    public short getTamanoDePagina() {
+    /**@param numero_de_pagina Índice para mapear el número de marco*/
+    public int getMarcoFromPagina(int numero_de_pagina){
+        return memoria[numero_de_pagina];
+    }
+
+    public int getTamanoDePagina() {
         return tamano_de_pagina;
     }
 
-    public byte getTamanoDePagina_bytes() {
-        return (byte) Integer.bitCount(tamano_de_pagina - 1);
-    }
-
-    public int getTamanoDeMemoria() {
-        return tamano_de_memoria;
-    }
-
-    public int getMemoria_con_pagina(int pagina) {
-        return memoria[pagina];
+    // Función para obtener el contenido de la página
+    public int getMemoria_con_pagina(int numero_de_pagina) {
+        return memoria[numero_de_pagina];
     }
 
     public boolean getMemoriaLlena() {
-        return porcentaje_de_uso == tamano_de_memoria;
+        return paginas_usadas == numero_de_paginas;
     }
 
     public boolean addMemoria_con_pagina(int pagina, int dato) {
-        if ((pagina < tamano_de_memoria) & (memoria[pagina] == 0)) {
+        if ((pagina < numero_de_paginas) && (memoria[pagina] == 0)) {
             memoria[pagina] = dato;
             if (dato == 0) { // Si el dato es 0, se decrementa el porcentaje de uso ya que se esta liberando memoria
-                porcentaje_de_uso--;
+                paginas_usadas--;
             } else {
-                porcentaje_de_uso++;
+                paginas_usadas++;
             }
             return true;
         } else {
@@ -50,9 +59,9 @@ public class Memoria_Virtual {
     }
 
     public boolean removeMemoria_con_pagina(int pagina) {
-        if ((pagina < tamano_de_memoria) & (memoria[pagina] == 0)) {
+        if ((pagina < numero_de_paginas) && (memoria[pagina] == 0)) {
             memoria[pagina] = 0;
-            porcentaje_de_uso--;
+            paginas_usadas--;
             return true;
         } else {
             return false;
@@ -60,15 +69,15 @@ public class Memoria_Virtual {
     }
 
     public float getPorcentajeDeUso() { // Regresa el porcentaje 1.0 - 0.0
-        return (float) porcentaje_de_uso / tamano_de_memoria;
+        return (float) paginas_usadas / numero_de_paginas;
     }
 
-    public int getMemoria(int direccion_virtual) {
-        return memoria[direccion_virtual];
+    public int getMemoria(int numero_de_pagina) {
+        return memoria[numero_de_pagina] - 1;
     }
 
     public void emptyMemoria() {
-        for (int i = 0; i < tamano_de_memoria; i++) {
+        for (int i = 0; i < numero_de_paginas; i++) {
             memoria[i] = 0;
         }
     }
