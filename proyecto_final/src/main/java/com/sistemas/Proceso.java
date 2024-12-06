@@ -5,14 +5,11 @@ import java.util.Deque;
 
 public class Proceso implements Serializable {
     private final String nombre_de_proceso;
-
-
-public class Proceso {
     private final int numero_de_paginas_a_usar;
     private final Deque<Integer> referencias;
 
     public Proceso(String id, int numero_de_paginas_a_usar, int[] referencias){
-        this.id = id;
+        this.nombre_de_proceso = id;
         this.numero_de_paginas_a_usar = numero_de_paginas_a_usar;
         this.referencias = new ArrayDeque<>();
 
@@ -25,17 +22,13 @@ public class Proceso {
         if(referencias.isEmpty()){
             throw new IllegalStateException("No hay más referencias");
         }
-       return referencias.removeFirst();
+        return referencias.removeFirst();
     }
-        int lastReference = referencias[referencias.length - 1];
-        referencias = java.util.Arrays.copyOf(referencias, referencias.length - 1);
-        return lastReference;
-        }
 
         public String sendLog(Paginas pagina, int direccion_fisica) {
             StringBuilder log = new StringBuilder();
             log.append("\nProceso: ").append(nombre_de_proceso).append("\n");
-            log.append("Dirección virtual: ").append(direccion_virtual).append("\n");
+            log.append("Dirección virtual: ").append(0).append("\n");
             log.append("Dirección física: ").append(direccion_fisica).append("\n");
             log.append("Número de marco: ").append(pagina.getFrame()).append("\n");
             log.append("Bits de control:\n");
@@ -88,9 +81,9 @@ public class Proceso {
 //        this.referencias = referencias;
 //    }
 //
-//    public String getNombreDeProceso() {
-//        return nombre_de_proceso;
-//    }
+    public String getNombreDeProceso() {
+        return nombre_de_proceso;
+    }
 //
 //    public int getDireccionVirtual() {
 //        return direccion_virtual;
