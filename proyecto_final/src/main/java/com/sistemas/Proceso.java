@@ -1,6 +1,8 @@
 package com.sistemas;
 
-public class Proceso {
+import java.io.Serializable;
+
+public class Proceso implements Serializable {
     private final String nombre_de_proceso;
     private final int numero_de_paginas_a_usar;
     private int direccion_virtual;
@@ -40,9 +42,25 @@ public class Proceso {
         int lastReference = referencias[referencias.length - 1];
         referencias = java.util.Arrays.copyOf(referencias, referencias.length - 1);
         return lastReference;
-    }
+        }
 
-    public void ejecutar(Memoria_Virtual memoriaVirtual, Memoria_Fisica memoriaFisica) {
+        public String sendLog(Paginas pagina, int direccion_fisica) {
+            StringBuilder log = new StringBuilder();
+            log.append("\nProceso: ").append(nombre_de_proceso).append("\n");
+            log.append("Dirección virtual: ").append(direccion_virtual).append("\n");
+            log.append("Dirección física: ").append(direccion_fisica).append("\n");
+            log.append("Número de marco: ").append(pagina.getFrame()).append("\n");
+            log.append("Bits de control:\n");
+            log.append("\tReferencia: ").append(pagina.getReferencia()).append("\n");
+            log.append("\tModificación: ").append(pagina.getModificacion()).append("\n");
+            log.append("\tPermiso: ").append(pagina.getPermiso()).append("\n");
+            log.append("\tCaché: ").append(pagina.getCache()).append("\n");
+            log.append("\tPresente/Ausente: ").append(pagina.getPresenteAusente()).append("\n");
+            log.append("-----------------------------------\n");
+            return log.toString();
+        }
+
+        public void ejecutar(Memoria_Virtual memoriaVirtual, Memoria_Fisica memoriaFisica) {
         for (int referencia : referencias) {
             try {
                 // Simula 1 segundo por referencia
