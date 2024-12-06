@@ -1,4 +1,4 @@
-
+//son nodos de la lista ligada, no tienen que ver con los nodos del ssistema distribuido xd 
 public class Nodo {
 	public Proceso procesoo; 
 	public Nodo sig;
