@@ -1,5 +1,4 @@
 {
-    "sistema": {
         "tamano_de_pagina": 4096,
         "nodos": [
             {
@@ -16,7 +15,11 @@
                 "id": 3,
                 "memoria_fisica": 12288,
                 "memoria_virtual": 28672
+            },
+            {
+                "id": 4,
+                "memoria_fisica": 12288,
+                "memoria_virtual": 28672
             }
         ]
-    }
 }

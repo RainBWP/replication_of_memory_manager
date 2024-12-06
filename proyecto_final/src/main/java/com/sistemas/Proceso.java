@@ -1,10 +1,13 @@
 package com.sistemas;
-
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+public class Proceso implements Serializable {
+    private final String nombre_de_proceso;
+
+
 public class Proceso {
-    private final String id;
     private final int numero_de_paginas_a_usar;
     private final Deque<Integer> referencias;
 
@@ -22,8 +25,28 @@ public class Proceso {
         if(referencias.isEmpty()){
             throw new IllegalStateException("No hay más referencias");
         }
-        return referencias.removeFirst();
+       return referencias.removeFirst();
     }
+        int lastReference = referencias[referencias.length - 1];
+        referencias = java.util.Arrays.copyOf(referencias, referencias.length - 1);
+        return lastReference;
+        }
+
+        public String sendLog(Paginas pagina, int direccion_fisica) {
+            StringBuilder log = new StringBuilder();
+            log.append("\nProceso: ").append(nombre_de_proceso).append("\n");
+            log.append("Dirección virtual: ").append(direccion_virtual).append("\n");
+            log.append("Dirección física: ").append(direccion_fisica).append("\n");
+            log.append("Número de marco: ").append(pagina.getFrame()).append("\n");
+            log.append("Bits de control:\n");
+            log.append("\tReferencia: ").append(pagina.getReferencia()).append("\n");
+            log.append("\tModificación: ").append(pagina.getModificacion()).append("\n");
+            log.append("\tPermiso: ").append(pagina.getPermiso()).append("\n");
+            log.append("\tCaché: ").append(pagina.getCache()).append("\n");
+            log.append("\tPresente/Ausente: ").append(pagina.getPresenteAusente()).append("\n");
+            log.append("-----------------------------------\n");
+            return log.toString();
+        }
 
    public void ejecutar(Tabla_de_Paginas tabla, Memoria_Fisica memoria_fisica, Memoria_Virtual memoria_virtual){
        // Suponiendo que la tabla de páginas ya venga cargada
